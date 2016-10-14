@@ -3,42 +3,25 @@ shinyServer(
     output$plot1 <- renderPlot({
       if(input$xvar == "Day"){
         temp_date = c(1:153)
-        if(input$yvar == "Ozone"){
-          temp_ozone_table = data.frame(temp_date, airquality$Ozone)
-          clean_ozone_table = temp_ozone_table[complete.cases(temp_ozone_table),]
-          plot(clean_ozone_table,xlab="Day",ylab=input$yvar)
-          lines(clean_ozone_table)
-        }else
-        if(input$yvar == "Solar.R"){
-          temp_solar_table = data.frame(temp_date, airquality$Solar.R)
-          clean_solar_table = temp_solar_table[complete.cases(temp_solar_table),]
-          plot(clean_solar_table,xlab="Day",ylab=input$yvar)
-          lines(clean_solar_table)
-        }else{
-          temp_date_2 = c(1:153)
-          plot(temp_date_2, airquality[,input$yvar],xlab="Day",ylab=input$yvar)
-          lines(temp_date_2, airquality[,input$yvar],xlab="Day",ylab=input$yvar)
-        }
-        
-      #lines(dens, col = "blue")
+        temp_data_day = data.frame(temp_date, airquality[input$yvar])
+        clean_data_day = temp_data_day[complete.cases(temp_data_day),]
+        colnames(clean_data_day) <- c("day","data")
+        plot(clean_data_day,xlab="Day",ylab=input$yvar)
+        lines(clean_data_day)
       }else{
-        if(input$yvar == "Ozone"){
-          temp_ozone_table = data.frame(temp_date, airquality$Ozone)
-          clean_ozone_table = temp_ozone_table[complete.cases(temp_ozone_table),]
-          plot(clean_ozone_table,xlab="Day",ylab=input$yvar)
-          lines(clean_ozone_table)
-        }else
-          if(input$yvar == "Solar.R"){
-            temp_solar_table = data.frame(temp_date, airquality$Solar.R)
-            clean_solar_table = temp_solar_table[complete.cases(temp_solar_table),]
-            plot(clean_solar_table,xlab="Day",ylab=input$yvar)
-            lines(clean_solar_table)
-          }else{
-            temp_date_2 = c(1:153)
-            plot(temp_date_2, airquality[,input$yvar],xlab="Day",ylab=input$yvar)
-            lines(temp_date_2, airquality[,input$yvar],xlab="Day",ylab=input$yvar)
-          }
+        month_factor <- as.factor(airquality$Month)
+        temp_data_month = data.frame(month_factor, airquality[input$yvar])
+        clean_data_month = temp_data_month[complete.cases(temp_data_month),]
+        colnames(clean_data_month) <- c("month","data")
+        sum_data_month <- ddply(clean_data_month, .(month), summarize, mean=mean(data))
+        plot(sum_data_month,xlab="Month",ylab=input$yvar)
+        lines(sum_data_month)
       }
     })
   
+    output$plot2 <- renderPlot({
+      subtract_table <- dplyr::filter(airquality, Month==input$singlemonth)
+      
+    })
+    
   })

@@ -1,6 +1,8 @@
 library(shinydashboard)
 library(shiny)
 library(DT)
+library(plyr)
+library(dplyr)
 shinyUI(
   
   dashboardPage(
@@ -13,8 +15,8 @@ shinyUI(
         selectInput('xvar', 'Pick Length', names(airquality)[c(5,6)],
                     selected=names(airquality)[[6]]),
         # actionButton('select2', 'Select the above variables.'),
-        sliderInput("subsample", label = "Size of random samples",
-                    min = 5, max = 50, value = 10, step = 1),
+        sliderInput("singlemonth", label = "View each month",
+                    min = 5, max = 9, value = 5, step = 1),
         actionButton('resetSelection',
                      label = "Click to reset row selection"
         ) # end of action button
