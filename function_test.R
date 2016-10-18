@@ -11,20 +11,7 @@ insertion.sort <- function(A){
   return(A)
 }
 
-result <- insertion.sort(tosort)
+
 tosort <- c(4,2,5,1,3)
-length(tosort)
-insertion.sort(tosort)
-tosort[0]
-tosort
-rosort[1]
-tosort[1]
-for(i in c(2:length(tosort))){
-  for(j in c(i:2)){
-    if(tosort[j-1]>tosort[j]){
-      temp_val <- tosort[j]
-      tosort[j] <- tosort[j-1]
-      tosort[j-1]=temp_val
-    }
-  }
-}
+result <- insertion.sort(tosort)
+result
