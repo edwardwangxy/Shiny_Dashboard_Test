@@ -15,3 +15,4 @@ insertion.sort <- function(A){
 tosort <- c(4,2,5,1,3)
 result <- insertion.sort(tosort)
 result
+insertion.sort(c(1,5,2,7,3,6))
