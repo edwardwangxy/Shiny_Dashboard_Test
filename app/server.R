@@ -62,7 +62,7 @@ shinyServer(
       par(mar = c(4, 4, 1, .1))
       plot(airquality[, c(input$xcol, input$ycol)])
       s = input$x1_rows_selected
-      if (length(s)) {
+      if (length(s)>=2) {
         points(airquality[s, c(input$xcol, input$ycol), drop = FALSE], 
                pch = 19, cex = 2)
         abline(lsfit(airquality[s,input$xcol], 
@@ -73,6 +73,10 @@ shinyServer(
     output$info = renderPrint({
       s = input$x1_rows_selected
       cor.sel=NA
+      cat("These rows are selected\n")
+      cat(s,sep=",")
+      cat("\n\n")
+      if(length(s)<=1){cat("Please select 2 rows for regression\n\n")}
       if(length(s)) cor.sel=cor(airquality[s,input$xcol], 
                                 airquality[s,input$ycol],
                                 use="pairwise.complete.obs")
@@ -81,5 +85,7 @@ shinyServer(
                        airquality[,input$ycol],
                        use="pairwise.complete.obs"),
            cor.sel=cor.sel)
+      cat("\n")
+      
     })
   })
