@@ -19,21 +19,6 @@ shinyServer(
       }
     })
   
-    output$plot2 <- renderPlot({
-      subtract_table <- dplyr::filter(airquality, Month==input$singlemonth)
-      insertion.sort <- function(A){
-        for(i in c(2:length(A))){
-          for(j in c(i:2)){
-            if(A[j-1]>A[j]){
-              temp_val <- A[j-1]
-              A[j] <- A[j-1]
-              A[j-1]=temp_val
-            }
-          }
-        }
-        return(A)
-      }
-    })
     
     selectedData <- 
       #airquality[,c(input$xcol,input$ycol)]
@@ -73,7 +58,7 @@ shinyServer(
     output$info = renderPrint({
       s = input$x1_rows_selected
       cor.sel=NA
-      cat("These rows are selected\n")
+      cat("These rows are selected:\n")
       cat(s,sep=",")
       cat("\n\n")
       if(length(s)<=1){cat("Please select 2 rows for regression\n\n")}
@@ -85,7 +70,37 @@ shinyServer(
                        airquality[,input$ycol],
                        use="pairwise.complete.obs"),
            cor.sel=cor.sel)
-      cat("\n")
       
+    })
+    
+    insertion_sort <- eventReactive(input$act_sort,{
+      insertion.sort <- function(A){
+        for(i in c(2:length(A))){
+          for(j in c(i:2)){
+            if(A[j-1]>A[j]){
+              temp_val <- A[j-1]
+              A[j-1] <- A[j]
+              A[j]=temp_val
+            }
+          }
+        }
+        return(A)
+      }
+      temp_input = airquality[input$sortvar]
+      clean_temp_input = temp_input[complete.cases(temp_input),]
+      insertion.sort(clean_temp_input)
+    })
+    
+    output$sort = renderPrint({
+      
+      temp_input = airquality[input$sortvar]
+      clean_temp_input = temp_input[complete.cases(temp_input),]
+      cat("The original data of ")
+      cat(input$sortvar)
+      cat("is: \n")
+      cat(clean_temp_input)
+      cat("\n")
+      cat("After insertion sort:\n")
+      cat(insertion_sort())
     })
   })

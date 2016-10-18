@@ -36,11 +36,11 @@ shinyUI(
     dashboardBody(
       # Boxes need to be put in a row (or column)
       fluidRow(
-        box(column(6,plotOutput("plot1", width = 450))),
-        box(column(6, h1('select rows'),DT::dataTableOutput('x1',width = 450))),
-        box(column(6, plotOutput('x2', width = 450))),
-        verbatimTextOutput('info')
-        #verbatimTextOutput("action")
+        box(column(12,plotOutput("plot1"))),
+        box(column(12, h1('select rows'),DT::dataTableOutput('x1'))),
+        box(column(12,plotOutput('x2'))),
+        box(column(12, h1('Raw Infos'),verbatimTextOutput('info'))),
+        box(column(12, h1('Insertion Sort'),verbatimTextOutput("sort")))
       )
     )
   ))

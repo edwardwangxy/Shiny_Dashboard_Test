@@ -3,8 +3,8 @@ insertion.sort <- function(A){
     for(j in c(i:2)){
       if(A[j-1]>A[j]){
         temp_val <- A[j-1]
-        A[j] <- A[j-1]
-        A[j-1]=temp_val
+        A[j-1] <- A[j]
+        A[j]=temp_val
       }
     }
   }
